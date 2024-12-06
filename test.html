@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Centered Div</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+
+        .dynamic-div {
+            width: 300px;
+            height: 99vh;
+            background-color: #4CAF50;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+    <div class="dynamic-div">
+        Dynamic Centered Div
+    </div>
+
+    <script>
+            // // Function to calculate and apply dynamic margin
+            // function adjustDivPosition() {
+            //     const div = document.querySelector('.dynamic-div');
+
+            //     // Get screen width to calculate "one-finger width"
+            //     const oneFingerWidth = screen.width * 0.2; // 2% of screen width as approximate margin
+
+            //     // Center the div with dynamic margins
+            //     div.style.top = `calc(50% - ${oneFingerWidth}px)`;
+            //     div.style.left = `calc(50% - ${oneFingerWidth}px)`;
+            // }
+
+            // // Adjust div position on load and resize
+            // window.onload = adjustDivPosition;
+            // window.onresize = adjustDivPosition;
+    </script>
+</body>
+</html>

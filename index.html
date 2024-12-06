@@ -3,7 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400..700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+ 
     <title>Typing Tutor</title>
 </head>
 
@@ -17,25 +21,40 @@
                 <button onclick="closeAlert()">OK</button>
             </div>
         </div>
-        
-    
-        <h1>Typing Tutor</h1>
-        <select id="time-dropdown">
-            <option value="10">10 seconds</option>
-            <option value="20">20 seconds</option>
-            <option value="30">30 seconds</option>
-            <option value="60">1 minute (60 seconds)</option>
-            <option value="3600">1 hour (3600 seconds)</option>
-        </select>
-        
-        <button id="start-button">Start</button>
-        <p>Time Left: <span id="countdown">0</span> seconds</p> <p id="typing-paragraph"> </p>
 
-        <input id="input-box" type="text" placeholder="Start typing here">
-        <p>Words Per Minute (WPM): <span id="wpm">0</span></p>
-        <p>Accuracy: <span id="accuracy">100%</span></p>
-        <p>Gross Speed: <span id="gross-speed">0 WPM</span></p>
+        <h1 class="urdu-wali"> ░▒▓◤اردو ٹائیپنگ ◥▓▒░ </h1>
+        <div class="timee">
+            <div class="custom-select">
+            <select class="urdu-wali" id="time-dropdown">
+                <option value="0">0 منٹ</option>
+                <option value="60">1 منٹ</option>
+                <option value="120">2 منٹ</option>
+                <option value="180">3 منٹ</option>
+                <option value="300">5 منٹ</option>
+                <option value="600">10 منٹ</option>
+                <option value="900">15 منٹ</option>
+                <option value="1200">20 منٹ</option>
+            </select>
+            <span class="arrow">▼</span>
+        </div>
+            <span style="flex:0% ;"></span>
+            <p class="countdown-timer">Time : <span id="countdown">60</span> seconds</p>
+        </div>
+
+        <button id="start-button" hidden>Start</button>
+        <p id="typing-paragraph"></p>
+        <div class="down-setting">
+            <input id="input-box" class="urdu-wali" type="text" placeholder="لکھنا شروع کریں "><br><br><br>
+           <div class="details" style="flex: 0%;">
+                <p>Words Per Minute (WPM): <span id="wpm">0</span></p>
+                <p>Accuracy: <span id="accuracy">100%</span></p>
+                <p>Gross Speed: <span id="gross-speed">0 WPM</span></p>
+           </div>
+        </div>
+        <button id="reset-button" onclick="resetPage()">Reset</button>
+
     </div>
+    
 <script src="script.js"></script>
 </body>
 </html>
