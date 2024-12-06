@@ -18,7 +18,7 @@
     let correctWords = 0;
     let totalWords = 0;
     let typingStartTime = 0;
-
+    let typingFlag=false;
     function showAlert() {
         document.getElementById("custom-alert").style.display = "block";
     }
@@ -65,7 +65,7 @@
 
     function updateStatistics() {
         totalWords++;
-        const elapsedTime = (Date.now() - typingStartTime) / 1000 / 60; // in minutes
+        const elapsedTime = (Date.now() - typingStartTime) / 1000 / 60; 
         const wpm = Math.floor((totalWords / elapsedTime));
         const accuracy = ((correctWords / totalWords) * 100).toFixed(2) + "%";
         const grossSpeed = wpm + " WPM";
@@ -116,9 +116,10 @@
         document.getElementById("input-box").focus();
     });
 
-    document.getElementById("input-box").addEventListener("input", () => {
+    let starter = document.getElementById("input-box").addEventListener("input", () => {
         if (typingStartTime === 0) {
             startCountdown();
+            typingFlag=true;
             typingStartTime = Date.now();
         }
     });
@@ -135,7 +136,8 @@
     }
 
     document.getElementById("input-box").addEventListener("keydown", (event) => {
-        if (event.key === " ") {
+        if (event.key === " " ) {
+            if(typingFlag===false){starter();}
             event.preventDefault();
             const input = document.getElementById("input-box").value.trim();
             const currentWord = typingText.split(" ")[wordIndex];

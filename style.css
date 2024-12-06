@@ -1,193 +1,246 @@
-
-*{
+* {
     font-family: "Noto Nastaliq Urdu", serif;
 
 }
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #8d8d8d;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-        }
 
-        #app {
-            height: 90vh;
-            width: 90%;
-            background-color: #fff;
-            border-radius: 1vh;
-            padding: 2vh;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-        }
+body {
+    font-family: Arial, sans-serif;
+    background-color: #8d8d8d;
+    padding: 0px;
+    margin: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
 
-        .urdu-wali, h1 {
-            direction: rtl;
-            font-family: 'MyCustomFont', sans-serif;
-            font-optical-sizing: auto;
-            font-size: 6vh;
-            font-weight: 50;
-            font-style: normal;
+#app {
+    height: 90vh;
+    width: 90vw;
+    margin-top: 2vh;
+    background-color: #fff;
+    border-radius: 1vh;
+    padding: 2vh;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
 
-        }
-        .hidden {
-            display: none;
-        }
+.urdu-wali,
+h1 {
+    direction: rtl;
+    font-family: 'MyCustomFont', sans-serif;
+    font-optical-sizing: auto;
+    font-size: 6vh;
+    font-weight: 50;
+    font-style: normal;
 
-        #typing-paragraph {
-            font-size: 3vh;
-            margin-top: 20px;
-            height: 15vh;
-            overflow: hidden;
-            scroll-snap-type: proximity;
-            text-align: justify;
-            padding: 2%;
-            border: #797979 1px solid;
-            border-radius: 4px;
-            background-color: #eeeeee;
-        }
-        input {
-            font-size: 18px;
-            padding: 10px 30px 10px 0px;
-            width: 50%;
-            border: 1px solid #ccc;
-            float: right;
-            border-radius: 5px;
-        }
- 
+}
 
-        /* Correct and Wrong Styles */
-        .correct {
-            color: green;
-        }
-        .wrong {
-            color: red;
-        }
-        .current-word {
-            background-color: yellow;
-        }
+.hidden {
+    display: none;
+}
+.paragraph-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#typing-paragraph {
+    font-size: 3vh;
+    margin-top: 2vh;
+    height: 15vh;
+    width: 80vw;
+    overflow: hidden;
+    scroll-snap-type: proximity;
+    text-align: justify;
+    padding: .5vh;
+    border: #797979 .1vh solid;
+    border-radius: 1vh;
+    background-color: #eeeeee;
+}
 
-        /* Layout */
-
-        .timee {
-            display: flex;
-            direction: rtl;
-        }
-        #time-dropdown {
-            float: right;
-        }
-        
-        select, button {
-            padding: .8vh;
-            font-size: 2vh;
-            border: .1vh solid #ccc;
-            border-radius: .5vh;
-            margin: 1vh .5vh;
-        }
-        .custom-select {
-            position: relative;
-            width: 35vh;
-            direction: rtl;
-        }
-
-        .countdown-timer {
-            margin: 0;
-            float: left;
-            padding: 0vh 1.5vh 0vh 1.5vh ;
-            font-size: 5vh;
-            border: #333 .1vh solid;
-            border-radius: 2vh;
-        }
-        #countdown {
-            font-weight: bold;
-            font-size: 5vh;
-        }
-        select {
-            width: 100%;
-            padding: 2vh; 
-            border-radius: 2vh;
-            border: .1vh solid #000000;
-            text-align: center;
-            font-family: 'MyCustomFont', sans-serif;
-            font-weight: 50;
-            line-height: 150%;
-            height: auto;
-            appearance: none;
-            background: none;
-        }
-
-        .arrow {
-            position: absolute;
-            left: 4vh; 
-            top: 4.5vh; 
-            pointer-events: none; 
-            font-size: 2.5vh; 
-        }
+input {
+    font-size: 18px;
+    padding: 1vh 3vh 1vh 0px;
+    width: 50%;
+    border: .1vh solid #ccc;
+    float: right;
+    border-radius: 1vh;
+}
 
 
-        option {
-            line-height: 5vh;
-            height: auto;
-            border: .1vh solid #000000;
-        }
-        button {
-            background-color: #7072ff;
-            color: #fff;
-            width: 30vh;
-            height: 8vh;
-            font-size: 2.5vh;
-            padding: 0px 0px 1.vh 0px ;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
+/* Correct and Wrong Styles */
+.correct {
+    color: green;
+}
 
-        /* Overlay and Alert Styles */
-        .overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .alert-box {
-            background: #fff;
-            width: 60vh;
-            height: 40vh;
-            padding: 20px;
-            overflow: hidden;
-            border-radius: 8px;
-            margin-top: 10%;
-            margin-left: 35%;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-            text-align: center;
-            font-size: large bold;
-        }
-        .close-button {
-            cursor: pointer;
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 20px;
-        }
+.wrong {
+    color: red;
+}
 
-        /* Additional Styles */
-        #typing-paragraph, #input-box, .urdu-wali, h1 {
-            direction: rtl;
-            font-family: 'MyCustomFont', sans-serif;
-            font-optical-sizing: auto;
-            font-weight: 50;
-            font-style: normal;
-        }
-        .down-setting{
-            display: flex;
-            direction: rtl;
-            
-        }
+.current-word {
+    background-color: yellow;
+}
+
+/* Layout */
+
+.timee {
+    display: flex;
+    direction: rtl;
+}
+
+#time-dropdown {
+    float: right;
+}
+
+select{
+    padding: .8vh;
+    font-size: 2vh;
+    border: .1vh solid #ccc;
+    border-radius: .5vh;
+    margin: 1vh .5vh;
+}
+
+.custom-select {
+    position: relative;
+    width: 35vh;
+    direction: rtl;
+}
+
+.countdown-timer {
+    margin: 0;
+    float: left;
+    padding: 0vh 1.5vh 0vh 1.5vh;
+    font-size: 5vh;
+    border: #333 .1vh solid;
+    border-radius: 2vh;
+}
+
+#countdown {
+    font-weight: bold;
+    font-size: 5vh;
+}
+
+select {
+    width: 100%;
+    padding: 2vh;
+    border-radius: 2vh;
+    border: .1vh solid #000000;
+    text-align: center;
+    font-family: 'MyCustomFont', sans-serif;
+    font-weight: 50;
+    line-height: 150%;
+    height: auto;
+    appearance: none;
+    background: none;
+}
+
+.arrow {
+    position: absolute;
+    left: 4vh;
+    top: 4.5vh;
+    pointer-events: none;
+    font-size: 2.5vh;
+}
+
+
+option {
+    line-height: 5vh;
+    height: auto;
+    border: .1vh solid #000000;
+}
+.opt:focus {
+    border-color: blue; 
+    outline: none; 
+}
+
+button {
+    background-color: #7072ff;
+    color: #fff;
+    width: 30vh;
+    height: 8vh;
+    font-size: 2.5vh;
+    border: 0vh solid black;
+    border-radius: 1vh;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Overlay and Alert Styles */
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    z-index: 2;
+    align-items: center;
+    justify-content: center;
+}
+
+.alert-box {
+    background: #fff;
+    width: 60vh;
+    z-index: 2;
+    height: 60vh;
+    font-size: 3vh;
+    padding: 0vh 3vh 10vh 3vh ;
+    overflow: hidden;
+    border-radius: .5vh;
+    margin-top: 12vh;
+    margin-left: 35%;
+    box-shadow: 0px 0px 1vh rgba(0, 0, 0, 0.5);
+    text-align: center;
+    font-size: large bold;
+}
+
+.close-button {
+    cursor: pointer;
+    position: absolute;
+    top: 3vh;
+    right: 3vh;
+    font-size: 3vh;
+}
+
+/* Additional Styles */
+#typing-paragraph,
+#input-box,
+.urdu-wali,
+h1 {
+    direction: rtl;
+    font-family: 'MyCustomFont', sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 50;
+    font-style: normal;
+}
+
+#input-box {
+    height: 12vh;
+    border: .1vh solid green;
+    padding: 1vh 3vh 1vh 3vh;
+}
+
+#input-box:focus {
+    border-color: rgb(0, 255, 21); 
+    outline: none; 
+}
+
+.reset-button{
+    background-color: #333;
+    position: fixed;
+    bottom: 5vh;
+    top: 10;
+    margin: 0vh 0vh 0vh -20vh ;
+    z-index: 1;
+}
+.down-setting {
+    display: flex;
+    direction: rtl;
+    font-size: 2vh;
+    margin: 0;
+}

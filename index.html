@@ -26,14 +26,14 @@
         <div class="timee">
             <div class="custom-select">
             <select class="urdu-wali" id="time-dropdown">
-                <option value="0">0 منٹ</option>
-                <option value="60">1 منٹ</option>
-                <option value="120">2 منٹ</option>
-                <option value="180">3 منٹ</option>
-                <option value="300">5 منٹ</option>
-                <option value="600">10 منٹ</option>
-                <option value="900">15 منٹ</option>
-                <option value="1200">20 منٹ</option>
+                <option class="opt" value="0">0 منٹ</option>
+                <option class="opt" value="60">1 منٹ</option>
+                <option class="opt" value="120">2 منٹ</option>
+                <option class="opt" value="180">3 منٹ</option>
+                <option class="opt" value="300">5 منٹ</option>
+                <option class="opt" value="600">10 منٹ</option>
+                <option class="opt" value="900">15 منٹ</option>
+                <option class="opt" value="1200">20 منٹ</option>
             </select>
             <span class="arrow">▼</span>
         </div>
@@ -42,7 +42,10 @@
         </div>
 
         <button id="start-button" hidden>Start</button>
-        <p id="typing-paragraph"></p>
+        <span class="paragraph-container">
+
+            <p id="typing-paragraph"></p>
+        </span>
         <div class="down-setting">
             <input id="input-box" class="urdu-wali" type="text" placeholder="لکھنا شروع کریں "><br><br><br>
            <div class="details" style="flex: 0%;">
@@ -51,7 +54,7 @@
                 <p>Gross Speed: <span id="gross-speed">0 WPM</span></p>
            </div>
         </div>
-        <button id="reset-button" onclick="resetPage()">Reset</button>
+        <button id="reset-button" class="reset-button" onclick="resetPage()">Reset</button>
 
     </div>
     
