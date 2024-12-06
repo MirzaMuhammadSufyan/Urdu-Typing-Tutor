@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Typing Tutor</title>
+</head>
+
+<body>
+    <div id="app">
+        <div class="overlay" id="custom-alert" style="display: none;">
+            <div class="alert-box">
+                <span class="close-button" onclick="closeAlert()">&times;</span>
+                <h2>Custom Alert</h2>
+                <p id="alert-message">This is a custom alert box.</p>
+                <button onclick="closeAlert()">OK</button>
+            </div>
+        </div>
+        
+    
+        <h1>Typing Tutor</h1>
+        <select id="time-dropdown">
+            <option value="10">10 seconds</option>
+            <option value="20">20 seconds</option>
+            <option value="30">30 seconds</option>
+            <option value="60">1 minute (60 seconds)</option>
+            <option value="3600">1 hour (3600 seconds)</option>
+        </select>
+        
+        <button id="start-button">Start</button>
+        <p>Time Left: <span id="countdown">0</span> seconds</p> <p id="typing-paragraph"> </p>
+
+        <input id="input-box" type="text" placeholder="Start typing here">
+        <p>Words Per Minute (WPM): <span id="wpm">0</span></p>
+        <p>Accuracy: <span id="accuracy">100%</span></p>
+        <p>Gross Speed: <span id="gross-speed">0 WPM</span></p>
+    </div>
+<script src="script.js"></script>
+</body>
+</html>
