@@ -458,10 +458,24 @@ body, html {
 }
 
 .current-word {
-    background: rgba(99, 102, 241, 0.2);
-    border-radius: 4px;
-    padding: 2px 4px;
-    animation: highlight 1s ease infinite alternate;
+    background: rgba(255, 235, 59, 0.4) !important;
+    border: 2px solid #ffc107 !important;
+    border-radius: 6px !important;
+    padding: 3px 6px !important;
+    box-shadow: 0 0 10px rgba(255, 193, 7, 0.5) !important;
+    animation: currentWordPulse 1.5s ease-in-out infinite alternate !important;
+    font-weight: bold !important;
+}
+
+@keyframes currentWordPulse {
+    0% { 
+        background: rgba(255, 235, 59, 0.4);
+        box-shadow: 0 0 5px rgba(255, 193, 7, 0.3);
+    }
+    100% { 
+        background: rgba(255, 235, 59, 0.6);
+        box-shadow: 0 0 15px rgba(255, 193, 7, 0.7);
+    }
 }
 
 @keyframes highlight {

@@ -175,7 +175,7 @@
                 currentWord.className = "wrong";
             }
         }
-        wordIndex++;
+        // Don't increment wordIndex here - it will be done in space handler
     }
 
     function updateStatistics() {
@@ -183,10 +183,19 @@
         const elapsedTime = (Date.now() - typingStartTime) / 1000 / 60; 
         const wpm = Math.floor((totalWords / elapsedTime));
         const accuracy = ((correctWords / totalWords) * 100).toFixed(2) + "%";
-        const grossSpeed = wpm + " WPM";
-        document.getElementById("wpm").textContent = wpm;
-        document.getElementById("accuracy").textContent = accuracy;
-        document.getElementById("gross-speed").textContent = grossSpeed;
+        
+        // Update existing elements only
+        const wpmElement = document.getElementById("wpm");
+        const accuracyElement = document.getElementById("accuracy");
+        
+        if (wpmElement) {
+            wpmElement.textContent = wpm;
+        }
+        if (accuracyElement) {
+            accuracyElement.textContent = accuracy;
+        }
+        
+        console.log('📊 Stats updated - WPM:', wpm, 'Accuracy:', accuracy);
         
         // Update progress
         updateProgress();
@@ -195,8 +204,18 @@
     function updateProgress() {
         const totalWordsInText = typingText.split(" ").length;
         const progressPercentage = Math.floor((wordIndex / totalWordsInText) * 100);
-        document.getElementById("progress-percentage").textContent = progressPercentage + "%";
-        document.getElementById("progress-fill").style.width = progressPercentage + "%";
+        
+        const progressPercentageElement = document.getElementById("progress-percentage");
+        const progressFillElement = document.getElementById("progress-fill");
+        
+        if (progressPercentageElement) {
+            progressPercentageElement.textContent = progressPercentage + "%";
+        }
+        if (progressFillElement) {
+            progressFillElement.style.width = progressPercentage + "%";
+        }
+        
+        console.log('📈 Progress updated:', progressPercentage + '%');
     }
 
     function updateLevelInfo() {
@@ -247,34 +266,72 @@
         typingText = getCurrentPracticeText();
         reset();
         initializeParagraph();
-        highlightNextWord();
+        highlightNextWord(); // This will also call highlightNextKey()
         updateLevelInfo();
     }
 
     function reset() {
+        console.log('🔄 RESET CALLED! WordIndex being reset to 0');
+        console.trace('Reset called from:'); // Shows call stack
+        
         initializeParagraph();
         wordIndex = 0;
         correctWords = 0;
         totalWords = 0;
         typingStartTime = 0;
-        document.getElementById("input-box").value = "";
-        document.getElementById("countdown").textContent = "0";
-        document.getElementById("wpm").textContent = "0";
-        document.getElementById("accuracy").textContent = "100%";
-        document.getElementById("gross-speed").textContent = "0 WPM";
+        const inputBox = document.getElementById("input-box");
+        const countdownElement = document.getElementById("countdown");
+        const wpmElement = document.getElementById("wpm");
+        const accuracyElement = document.getElementById("accuracy");
+        
+        if (inputBox) inputBox.value = "";
+        if (countdownElement) countdownElement.textContent = "0";
+        if (wpmElement) wpmElement.textContent = "0";
+        if (accuracyElement) accuracyElement.textContent = "100%";
+        
+        // Reset highlighting
+        setTimeout(() => {
+            highlightNextWord();
+        }, 100);
     }
 
     // Event listeners moved to attachEventListeners function
 
     function highlightNextWord() {
-        const currentWord = document.getElementById(wordIndex + 1);
-        if (currentWord) {
-            currentWord.classList.add("current-word");
+        console.log('highlightNextWord called - wordIndex:', wordIndex);
+        
+        // Remove previous word highlighting from all spans
+        const allSpans = document.querySelectorAll('#typing-paragraph span');
+        allSpans.forEach(span => {
+            span.classList.remove('current-word');
+        });
+        
+        // Highlight current word (wordIndex + 1 because IDs start from 1)
+        const targetId = wordIndex + 1;
+        const currentWordElement = document.getElementById(targetId.toString());
+        
+        console.log('Looking for element with ID:', targetId);
+        console.log('Found element:', currentWordElement);
+        
+        if (currentWordElement) {
+            currentWordElement.classList.add("current-word");
+            console.log('✓ Highlighted word:', currentWordElement.textContent, 'at word index:', wordIndex);
+            
+            // Scroll to current word if needed
+            currentWordElement.scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'center',
+                inline: 'nearest'
+            });
+        } else {
+            console.warn('✗ Could not find word element with ID:', targetId);
+            // Debug: Show all available IDs
+            const allElements = document.querySelectorAll('#typing-paragraph span[id]');
+            console.log('Available word IDs:', Array.from(allElements).map(el => el.id));
         }
-        const previousWord = document.getElementById(wordIndex);
-        if (previousWord && !previousWord.classList.contains("correct")) {
-            previousWord.classList.remove("correct");
-        }
+        
+        // Highlight next key to press
+        highlightNextKey();
     }
 
     function hideNextGroupOfWords(groupSize) {
@@ -521,7 +578,10 @@
         } else {
             inputBox.value += key;
             inputBox.focus();
-            highlightNextKey();
+            
+            // Trigger input event for proper highlighting
+            const inputEvent = new Event('input', { bubbles: true });
+            inputBox.dispatchEvent(inputEvent);
             
             // Auto-release shift after typing (like real keyboard)
             if (isShiftPressed) {
@@ -531,15 +591,18 @@
                         shiftKey.classList.remove('active');
                     });
                     updateKeyboardDisplay();
+                    highlightNextKey();
                 }, 100);
             }
         }
     }
 
     function highlightNextKey() {
-        // Clear previous highlights
+        // Clear previous highlights (but keep shift state)
         document.querySelectorAll('.key.active').forEach(key => {
-            key.classList.remove('active');
+            if (!key.classList.contains('shift')) {
+                key.classList.remove('active');
+            }
         });
 
         // Get the next character to type
@@ -548,13 +611,64 @@
         
         if (currentText && inputValue.length < currentText.length) {
             const nextChar = currentText[inputValue.length];
+            console.log('Next character to type:', nextChar);
             
-            // Find and highlight the key (check both Urdu and English mapping)
+            let needsShift = false;
+            let targetKey = null;
+            
+            // Find which key produces this character
             const keys = document.querySelectorAll('.key');
             keys.forEach(key => {
-                // Check if this key produces the next character
-                if (key.dataset.urduKey === nextChar || key.dataset.key === nextChar) {
-                    key.classList.add('active');
+                const normalKey = key.dataset.normalKey;
+                const shiftKey = key.dataset.shiftKey;
+                
+                // Check if character matches normal key
+                if (normalKey === nextChar) {
+                    targetKey = key;
+                    needsShift = false;
+                }
+                // Check if character matches shift key
+                else if (shiftKey === nextChar) {
+                    targetKey = key;
+                    needsShift = true;
+                }
+            });
+            
+            // Highlight the target key
+            if (targetKey) {
+                targetKey.classList.add('active');
+                console.log('Highlighted key:', targetKey.dataset.key, 'for character:', nextChar, 'needs shift:', needsShift);
+            }
+            
+            // Highlight shift keys if needed
+            if (needsShift) {
+                document.querySelectorAll('.key.shift').forEach(shiftKey => {
+                    shiftKey.classList.add('active');
+                });
+                console.log('Highlighted Shift keys for character:', nextChar);
+            } else {
+                // Remove shift highlighting if not needed
+                document.querySelectorAll('.key.shift').forEach(shiftKey => {
+                    if (!isShiftPressed) {
+                        shiftKey.classList.remove('active');
+                    }
+                });
+            }
+            
+        } else if (currentText && inputValue.length >= currentText.length) {
+            // Only highlight space key if we're not at the end of all words
+            const totalWords = typingText.split(" ").length;
+            if (wordIndex < totalWords - 1) {
+                const spaceKey = document.querySelector('.key.space');
+                if (spaceKey) {
+                    spaceKey.classList.add('active');
+                }
+            }
+            
+            // Remove shift highlighting when word is complete
+            document.querySelectorAll('.key.shift').forEach(shiftKey => {
+                if (!isShiftPressed) {
+                    shiftKey.classList.remove('active');
                 }
             });
         }
@@ -564,10 +678,12 @@
     function attachEventListeners() {
         // Level and mode change listeners
         document.getElementById("level-dropdown").addEventListener("change", () => {
+            console.log('🔄 Level dropdown changed - calling updatePracticeText()');
             updatePracticeText();
         });
 
         document.getElementById("mode-dropdown").addEventListener("change", () => {
+            console.log('🔄 Mode dropdown changed - calling updatePracticeText()');
             updatePracticeText();
         });
 
@@ -582,6 +698,11 @@
         
         // Real-time key highlighting
         inputBox.addEventListener('input', () => {
+            // Clear any lingering space highlights first
+            document.querySelectorAll('.key.space.active').forEach(spaceKey => {
+                spaceKey.classList.remove('active');
+            });
+            
             highlightNextKey();
             if (typingStartTime === 0) {
                 startCountdown();
@@ -604,6 +725,9 @@
                 const urduChar = englishToUrdu[englishChar];
                 const currentValue = inputBox.value;
                 inputBox.value = currentValue + urduChar;
+                
+                console.log('🔤 English char:', englishChar, '→ Urdu char:', urduChar);
+                console.log('📝 Current input box value:', inputBox.value);
                 
                 // Auto-release shift after typing
                 if (isShiftPressed) {
@@ -640,6 +764,8 @@
         // Space key and word completion
         inputBox.addEventListener('keydown', (event) => {
             if (event.key === ' ') {
+                console.log('🚀 Space key pressed!');
+                
                 if(typingFlag === false) {
                     // Start typing
                     startCountdown();
@@ -651,31 +777,46 @@
                 const currentWord = typingText.split(" ")[wordIndex];
                 const isCorrect = input === currentWord;
                 
+                console.log('📝 Input:', input);
+                console.log('🎯 Expected:', currentWord);
+                console.log('✅ Correct:', isCorrect);
+                console.log('📍 Current wordIndex:', wordIndex);
+                
                 // Clear input box immediately
                 inputBox.value = "";
                 
+                // Mark current word as correct/wrong
                 highlightWord(isCorrect);
                 updateStatistics();
-                highlightNextWord();
+                
+                // Now increment word index
+                const oldIndex = wordIndex;
+                wordIndex++;
+                console.log('📈 WordIndex incremented:', oldIndex, '→', wordIndex);
+                
+                // Check if we've finished all words
+                const totalWords = typingText.split(" ").length;
+                console.log('📊 Total words:', totalWords);
+                
+                if (wordIndex >= totalWords) {
+                    console.log('🏁 Finished all words!');
+                    // Instead of finishTyping(), show completion message
+                    alert('ٹائپنگ مکمل! آپ نے تمام الفاظ ٹائپ کر دیے۔');
+                    return;
+                }
                 
                 if (wordIndex % 20 === 0 && wordIndex > 21) {
                     showNextGroupOfWords(wordIndex);
                 }
 
-                // Clear all highlights temporarily
+                // Clear all highlights immediately
                 document.querySelectorAll('.key.active').forEach(key => {
                     key.classList.remove('active');
                 });
                 
-                // Highlight space key
-                const spaceKey = document.querySelector('.key.space');
-                if (spaceKey) {
-                    spaceKey.classList.add('active');
-                    setTimeout(() => {
-                        spaceKey.classList.remove('active');
-                        highlightNextKey();
-                    }, 200);
-                }
+                // Immediately highlight next word and key
+                console.log('🎯 Highlighting next word...');
+                highlightNextWord();
             }
         });
 
@@ -699,13 +840,12 @@
         // Set initial typing text
         typingText = getCurrentPracticeText();
         
-        // Initialize all components
+                // Initialize all components
         createVirtualKeyboard();
-    initializeParagraph();
-    hideNextGroupOfWords(40); 
-    highlightNextWord();
+        initializeParagraph();
+        hideNextGroupOfWords(40); 
+        highlightNextWord(); // This will also call highlightNextKey()
         updateLevelInfo();
-        highlightNextKey();
         
         // Attach event listeners
         attachEventListeners();
