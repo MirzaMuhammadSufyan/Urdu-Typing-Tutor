@@ -13,49 +13,73 @@
 
 <body>
     <div id="app">
+        <!-- Alert Overlay -->
         <div class="overlay" id="custom-alert" style="display: none;">
             <div class="alert-box">
                 <span class="close-button" onclick="closeAlert()">&times;</span>
-                <h2>Custom Alert</h2>
+                <h2>نتائج</h2>
                 <p id="alert-message">This is a custom alert box.</p>
-                <button onclick="closeAlert()">OK</button>
+                <button onclick="closeAlert()">اوکے</button>
             </div>
         </div>
 
-        <h1 class="urdu-wali"> ░▒▓◤اردو ٹائیپنگ ◥▓▒░ </h1>
-        <div class="timee">
-            <div class="custom-select">
-            <select class="urdu-wali" id="time-dropdown">
-                <option class="opt" value="0">0 منٹ</option>
-                <option class="opt" value="60">1 منٹ</option>
-                <option class="opt" value="120">2 منٹ</option>
-                <option class="opt" value="180">3 منٹ</option>
-                <option class="opt" value="300">5 منٹ</option>
-                <option class="opt" value="600">10 منٹ</option>
-                <option class="opt" value="900">15 منٹ</option>
-                <option class="opt" value="1200">20 منٹ</option>
-            </select>
-            <span class="arrow">▼</span>
-        </div>
-            <span style="flex:0% ;"></span>
-            <p class="countdown-timer">Time : <span id="countdown">60</span> seconds</p>
+        <!-- Top Half - Content Area -->
+        <div class="top-section">
+            <header class="header">
+                <h1 class="urdu-wali">اردو ٹائیپنگ ٹریننگ</h1>
+                <div class="controls">
+                    <div class="control-group">
+                        <select class="urdu-wali compact-select" id="level-dropdown">
+                            <option value="beginner">مبتدی</option>
+                            <option value="basic">بنیادی</option>
+                            <option value="intermediate">درمیانہ</option>
+                            <option value="advanced">اعلیٰ</option>
+                            <option value="expert">ماہر</option>
+                        </select>
+                        <select class="urdu-wali compact-select" id="mode-dropdown">
+                            <option value="letters">حروف</option>
+                            <option value="words">الفاظ</option>
+                            <option value="sentences">جملے</option>
+                            <option value="paragraphs">پیراگرافز</option>
+                        </select>
+                        <select class="urdu-wali compact-select" id="time-dropdown">
+                            <option value="60">1 منٹ</option>
+                            <option value="120">2 منٹ</option>
+                            <option value="300">5 منٹ</option>
+                            <option value="600">10 منٹ</option>
+                        </select>
+                    </div>
+                    <div class="timer-stats">
+                        <span class="timer">⏱️ <span id="countdown">60</span>s</span>
+                        <span class="stat">WPM: <span id="wpm">0</span></span>
+                        <span class="stat">صحیح: <span id="accuracy">100%</span></span>
+                        <button id="reset-button" class="reset-btn" onclick="resetPage()">🔄</button>
+                    </div>
+                </div>
+            </header>
+
+            <div class="typing-area">
+                <div class="text-display" id="typing-paragraph"></div>
+                <input id="input-box" class="urdu-wali typing-input" type="text" placeholder="یہاں ٹائپ کریں...">
+                
+                <div class="progress-indicator">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill"></div>
+                    </div>
+                    <div class="level-info">
+                        <span id="current-level-info">مبتدی - حروف</span>
+                        <span class="progress-text"><span id="progress-percentage">0%</span> مکمل</span>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <button id="start-button" hidden>Start</button>
-        <span class="paragraph-container">
-
-            <p id="typing-paragraph"></p>
-        </span>
-        <div class="down-setting">
-            <input id="input-box" class="urdu-wali" type="text" placeholder="لکھنا شروع کریں "><br><br><br>
-           <div class="details" style="flex: 0%;">
-                <p>Words Per Minute (WPM): <span id="wpm">0</span></p>
-                <p>Accuracy: <span id="accuracy">100%</span></p>
-                <p>Gross Speed: <span id="gross-speed">0 WPM</span></p>
-           </div>
+        <!-- Bottom Half - Virtual Keyboard -->
+        <div class="bottom-section">
+            <div class="virtual-keyboard" id="virtual-keyboard">
+                <!-- Keyboard will be generated by JavaScript -->
+            </div>
         </div>
-        <button id="reset-button" class="reset-button" onclick="resetPage()">Reset</button>
-
     </div>
     
 <script src="script.js"></script>
