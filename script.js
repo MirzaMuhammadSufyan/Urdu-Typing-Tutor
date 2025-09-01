@@ -426,17 +426,16 @@
                     keyDiv.dataset.key = 'Enter';
                     keyDiv.dataset.urduKey = 'Enter';
                 } else if (typeof key === 'object') {
-                    // English-Urdu mapping key with Shift support
+                    // English-Urdu mapping key with side-by-side layout
                     const normalChar = key.ur;
                     const shiftChar = key.shift || key.ur;
                     const displayChar = isShiftPressed ? shiftChar : normalChar;
                     
-                    // Show English letter, normal char, and shift char with better layout
+                    // Side-by-side layout: English left, Urdu right (no duplicates)
                     keyDiv.innerHTML = `
-                        <div style="display:flex;flex-direction:column;align-items:center;height:100%;justify-content:space-between;padding:2px;">
-                            <div style="font-size:0.65em;color:#fbbf24;opacity:${isShiftPressed ? '1' : '0.6'};">${shiftChar}</div>
-                            <div style="font-size:1.1em;color:${isShiftPressed ? '#fbbf24' : 'white'};font-weight:bold;">${displayChar}</div>
-                            <div style="font-size:0.7em;color:#94a3b8;font-family:Arial,sans-serif;font-weight:500;">${key.en.toUpperCase()}</div>
+                        <div style="display:flex;align-items:center;justify-content:space-between;width:100%;height:100%;padding:0 6px;">
+                            <div style="font-size:0.8em;color:#94a3b8;font-family:Arial,sans-serif;font-weight:600;">${key.en.toUpperCase()}</div>
+                            <div style="font-size:1.1em;color:${isShiftPressed ? '#fbbf24' : 'white'};font-weight:bold;font-family:'Noto Nastaliq Urdu',serif;">${displayChar}</div>
                         </div>
                     `;
                     keyDiv.dataset.key = key.en;
@@ -493,11 +492,11 @@
                 const shiftChar = keyData.shift;
                 const displayChar = isShiftPressed ? shiftChar : normalChar;
                 
+                // Side-by-side layout - clean, no duplicates
                 keyDiv.innerHTML = `
-                    <div style="display:flex;flex-direction:column;align-items:center;height:100%;justify-content:space-between;padding:2px;">
-                        <div style="font-size:0.65em;color:#fbbf24;opacity:${isShiftPressed ? '1' : '0.6'};">${shiftChar}</div>
-                        <div style="font-size:1.1em;color:${isShiftPressed ? '#fbbf24' : 'white'};font-weight:bold;">${displayChar}</div>
-                        <div style="font-size:0.7em;color:#94a3b8;font-family:Arial,sans-serif;font-weight:500;">${keyData.en.toUpperCase()}</div>
+                    <div style="display:flex;align-items:center;justify-content:space-between;width:100%;height:100%;padding:0 6px;">
+                        <div style="font-size:0.8em;color:#94a3b8;font-family:Arial,sans-serif;font-weight:600;">${keyData.en.toUpperCase()}</div>
+                        <div style="font-size:1.1em;color:${isShiftPressed ? '#fbbf24' : 'white'};font-weight:bold;font-family:'Noto Nastaliq Urdu',serif;">${displayChar}</div>
                     </div>
                 `;
                 keyDiv.dataset.urduKey = displayChar;
